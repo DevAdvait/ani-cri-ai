@@ -1,62 +1,84 @@
-import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
+from datetime import datetime, timedelta
 
 # URL to scrape
 url = "https://www.magicbricks.com/property-for-sale/residential-real-estate?bedroom=2,3&proptype=Multistorey-Apartment,Builder-Floor-Apartment,Penthouse,Studio-Apartment,Residential-House,Villa&cityName=Kalyan"
 
+# Reference date (assumed to be 17th September 2024)
+reference_date = datetime(2024, 9, 17)
+
 # Function to scroll and load all the listings
 def scroll_and_load():
-    # Initialize Selenium WebDriver (Make sure to have the appropriate driver, e.g., chromedriver)
     driver = webdriver.Chrome()
-
-    # Navigate to the page
     driver.get(url)
 
-    # Scroll until all elements are loaded
     SCROLL_PAUSE_TIME = 2
     last_height = driver.execute_script("return document.body.scrollHeight")
 
     while True:
-        # Scroll down to bottom
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        
-        # Wait for new posts to load
         time.sleep(SCROLL_PAUSE_TIME)
-        
-        # Calculate new scroll height and compare with the last scroll height
         new_height = driver.execute_script("return document.body.scrollHeight")
         if new_height == last_height:
             break
         last_height = new_height
 
-    # After scrolling, get the full page source
     page_source = driver.page_source
     driver.quit()
     return page_source
 
+# Function to process the 'Posted' field and calculate the exact date
+def process_posted_date(posted_text):
+    posted_text = posted_text.lower()  # Normalize to lowercase for easier comparisons
+
+    if 'updated' in posted_text:
+        # Extract the number and the time unit (e.g., "Updated 3 months ago")
+        if 'months' in posted_text:
+            try:
+                months_ago = int(posted_text.split()[1])
+                return reference_date - timedelta(days=months_ago * 30)
+            except ValueError:
+                return posted_text  # Return the original string if parsing fails
+        elif 'week' in posted_text:
+            try:
+                weeks_ago = int(posted_text.split()[1])
+                return reference_date - timedelta(weeks=weeks_ago)
+            except ValueError:
+                return posted_text  # Return the original string if parsing fails
+        elif 'day' in posted_text:
+            try:
+                days_ago = int(posted_text.split()[1])
+                return reference_date - timedelta(days=days_ago)
+            except ValueError:
+                return posted_text  # Return the original string if parsing fails
+        elif 'yesterday' in posted_text:
+            return reference_date - timedelta(days=1)
+        elif 'a few moments ago' in posted_text:
+            return reference_date
+    elif 'posted:' in posted_text:
+        # Parse the exact posted date like "Posted: Sep 15, '24"
+        try:
+            date_str = posted_text.replace('posted:', '').strip()
+            return datetime.strptime(date_str, "%b %d, '%y")
+        except ValueError:
+            return posted_text  # Return the original string if parsing fails
+    return posted_text  # Return the original string if no conditions match
+
+
 # Function to scrape property data from the overview cards
 def scrape_property_listings(page_source):
-    # Parse the page content with BeautifulSoup
     soup = BeautifulSoup(page_source, "html.parser")
-
-    # Extract the relevant property cards
     property_cards = soup.find_all("div", class_="mb-srp__list")
-
-    # List to hold the scraped data
     properties = []
 
-    # Iterate through the property cards
     for card in property_cards:
-        # Scraping various details from each card
         title = card.find("h2", class_="mb-srp__card--title").get_text(strip=True)
-        price = card.find("div", class_="mb-srp__card__price--amount").get_text(
-            strip=True
-        )
-        location = title.split("in")[-1].strip()  # Extracting location from title
+        price = card.find("div", class_="mb-srp__card__price--amount").get_text(strip=True)
+        location = title.split("in")[-1].strip()
         area = (
             card.find("div", {"data-summary": "carpet-area"})
             .find("div", class_="mb-srp__card__summary--value")
@@ -119,14 +141,19 @@ def scrape_property_listings(page_source):
             else None
         )
         posted = (
-            card.find("div", class_="mb-srp__card__photo__fig--post").get_text(
-                strip=True
-            )
+            card.find("div", class_="mb-srp__card__photo__fig--post").get_text(strip=True)
             if card.find("div", class_="mb-srp__card__photo__fig--post")
             else None
         )
+        
+        # Process the 'Posted' date to calculate the exact date
+        posted_date = process_posted_date(posted)
+        formatted_posted_date = (
+            posted_date.strftime("%d-%m-%Y") 
+            if isinstance(posted_date, datetime) 
+            else posted_date
+        )
 
-        # Add the data to the list of properties
         properties.append(
             {
                 "Title": title,
@@ -141,30 +168,33 @@ def scrape_property_listings(page_source):
                 "Parking": parking,
                 "Facing": facing,
                 "Image URL": img_url,
-                "Posted": posted,
+                "Posted": formatted_posted_date,  # Use the formatted exact date
             }
         )
+
 
     return properties
 
 
+
+
+
+
+
+
+
+
+
+
 # Function to save data to CSV
 def save_to_csv(properties):
-    # Create a DataFrame from the scraped data
     df = pd.DataFrame(properties)
-
-    # Save to CSV
     df.to_csv("magicbricks_properties.csv", index=False)
     print(f"Data saved {len(properties)} to magicbricks_properties.csv")
 
-
 if __name__ == "__main__":
-    # Scroll and load the full page
     page_source = scroll_and_load()
-
-    # Scrape properties from the loaded page
     properties = scrape_property_listings(page_source)
-
     if properties:
         save_to_csv(properties)
     else:
