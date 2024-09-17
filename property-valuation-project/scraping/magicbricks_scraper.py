@@ -1,25 +1,47 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
 
 # URL to scrape
 url = "https://www.magicbricks.com/property-for-sale/residential-real-estate?bedroom=2,3&proptype=Multistorey-Apartment,Builder-Floor-Apartment,Penthouse,Studio-Apartment,Residential-House,Villa&cityName=Kalyan"
 
+# Function to scroll and load all the listings
+def scroll_and_load():
+    # Initialize Selenium WebDriver (Make sure to have the appropriate driver, e.g., chromedriver)
+    driver = webdriver.Chrome()
+
+    # Navigate to the page
+    driver.get(url)
+
+    # Scroll until all elements are loaded
+    SCROLL_PAUSE_TIME = 2
+    last_height = driver.execute_script("return document.body.scrollHeight")
+
+    while True:
+        # Scroll down to bottom
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        
+        # Wait for new posts to load
+        time.sleep(SCROLL_PAUSE_TIME)
+        
+        # Calculate new scroll height and compare with the last scroll height
+        new_height = driver.execute_script("return document.body.scrollHeight")
+        if new_height == last_height:
+            break
+        last_height = new_height
+
+    # After scrolling, get the full page source
+    page_source = driver.page_source
+    driver.quit()
+    return page_source
 
 # Function to scrape property data from the overview cards
-def scrape_property_listings():
-    # Send GET request to fetch the page content
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-    }
-    response = requests.get(url, headers=headers)
-
-    if response.status_code != 200:
-        print("Failed to retrieve the webpage.")
-        return []
-
+def scrape_property_listings(page_source):
     # Parse the page content with BeautifulSoup
-    soup = BeautifulSoup(response.text, "html.parser")
+    soup = BeautifulSoup(page_source, "html.parser")
 
     # Extract the relevant property cards
     property_cards = soup.find_all("div", class_="mb-srp__list")
@@ -127,7 +149,7 @@ def scrape_property_listings():
 
 
 # Function to save data to CSV
-def save_to_csv(properties):    
+def save_to_csv(properties):
     # Create a DataFrame from the scraped data
     df = pd.DataFrame(properties)
 
@@ -137,7 +159,11 @@ def save_to_csv(properties):
 
 
 if __name__ == "__main__":
-    properties = scrape_property_listings()
+    # Scroll and load the full page
+    page_source = scroll_and_load()
+
+    # Scrape properties from the loaded page
+    properties = scrape_property_listings(page_source)
 
     if properties:
         save_to_csv(properties)
