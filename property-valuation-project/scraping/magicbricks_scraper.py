@@ -3,13 +3,9 @@ import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
-from datetime import datetime, timedelta
 
 # URL to scrape
 url = "https://www.magicbricks.com/property-for-sale/residential-real-estate?bedroom=2,3&proptype=Multistorey-Apartment,Builder-Floor-Apartment,Penthouse,Studio-Apartment,Residential-House,Villa&cityName=Kalyan"
-
-# Reference date (assumed to be 17th September 2024)
-reference_date = datetime(2024, 9, 17)
 
 # Function to scroll and load all the listings
 def scroll_and_load():
@@ -30,44 +26,6 @@ def scroll_and_load():
     page_source = driver.page_source
     driver.quit()
     return page_source
-
-# Function to process the 'Posted' field and calculate the exact date
-def process_posted_date(posted_text):
-    posted_text = posted_text.lower()  # Normalize to lowercase for easier comparisons
-
-    if 'updated' in posted_text:
-        # Extract the number and the time unit (e.g., "Updated 3 months ago")
-        if 'months' in posted_text:
-            try:
-                months_ago = int(posted_text.split()[1])
-                return reference_date - timedelta(days=months_ago * 30)
-            except ValueError:
-                return posted_text  # Return the original string if parsing fails
-        elif 'week' in posted_text:
-            try:
-                weeks_ago = int(posted_text.split()[1])
-                return reference_date - timedelta(weeks=weeks_ago)
-            except ValueError:
-                return posted_text  # Return the original string if parsing fails
-        elif 'day' in posted_text:
-            try:
-                days_ago = int(posted_text.split()[1])
-                return reference_date - timedelta(days=days_ago)
-            except ValueError:
-                return posted_text  # Return the original string if parsing fails
-        elif 'yesterday' in posted_text:
-            return reference_date - timedelta(days=1)
-        elif 'a few moments ago' in posted_text:
-            return reference_date
-    elif 'posted:' in posted_text:
-        # Parse the exact posted date like "Posted: Sep 15, '24"
-        try:
-            date_str = posted_text.replace('posted:', '').strip()
-            return datetime.strptime(date_str, "%b %d, '%y")
-        except ValueError:
-            return posted_text  # Return the original string if parsing fails
-    return posted_text  # Return the original string if no conditions match
-
 
 # Function to scrape property data from the overview cards
 def scrape_property_listings(page_source):
@@ -146,14 +104,6 @@ def scrape_property_listings(page_source):
             else None
         )
         
-        # Process the 'Posted' date to calculate the exact date
-        posted_date = process_posted_date(posted)
-        formatted_posted_date = (
-            posted_date.strftime("%d-%m-%Y") 
-            if isinstance(posted_date, datetime) 
-            else posted_date
-        )
-
         properties.append(
             {
                 "Title": title,
@@ -168,34 +118,22 @@ def scrape_property_listings(page_source):
                 "Parking": parking,
                 "Facing": facing,
                 "Image URL": img_url,
-                "Posted": formatted_posted_date,  # Use the formatted exact date
+                "Posted": posted,  # Raw posted date as string
             }
         )
 
-
     return properties
 
-
-
-
-
-
-
-
-
-
-
-
-# Function to save data to CSV
-def save_to_csv(properties):
+# Function to save raw data to CSV
+def save_raw_to_csv(properties):
     df = pd.DataFrame(properties)
-    df.to_csv("magicbricks_properties.csv", index=False)
-    print(f"Data saved {len(properties)} to magicbricks_properties.csv")
+    df.to_csv("magicbricks_raw_properties.csv", index=False)
+    print(f"{len(properties)} Raw data entries saved to magicbricks_raw_properties.csv")
 
 if __name__ == "__main__":
     page_source = scroll_and_load()
     properties = scrape_property_listings(page_source)
     if properties:
-        save_to_csv(properties)
+        save_raw_to_csv(properties)
     else:
         print("No properties found.")
