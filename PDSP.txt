@@ -1,0 +1,41 @@
+/*Project Directory Start Point*/
+
+property-valuation-project/
+│
+├── backend/                 # Express server, REST API/GraphQL
+│   ├── models/              # Mongoose models
+│   │   └── Property.js
+│   ├── routes/              # API routes for the backend
+│   │   └── propertyRoutes.js
+│   ├── controllers/         # API logic, request handling
+│   │   └── propertyController.js
+│   ├── config/              # Config files (MongoDB URI, etc.)
+│   │   └── db.js
+│   ├── index.js             # Main server file for Express
+│   └── package.json         # Backend dependencies and scripts
+│
+├── frontend/                # React frontend for the web app
+│   ├── public/              # Public assets (images, index.html, etc.)
+│   ├── src/                 # React components and app logic
+│   │   ├── components/      # Reusable UI components
+│   │   ├── pages/           # Page-level components (Home, PropertyDetails, etc.)
+│   │   ├── App.js           # Main React app entry point
+│   │   └── index.js         # React entry point
+│   ├── package.json         # Frontend dependencies and scripts
+│   └── .env                 # Environment variables (e.g., API URL)
+│
+├── scraping/                # Python scripts for web scraping
+│   ├── magicbricks_scraper.py # Script to scrape MagicBricks
+│   ├── public_records_scraper.py # Script to scrape public records
+│   ├── data_cleaning.py      # Data cleaning and preprocessing script
+│   ├── requirements.txt      # Python dependencies
+│   └── config.py             # Configuration (MongoDB connection, scraping URLs)
+│
+├── ml_model/                # Machine Learning model code
+│   ├── model.py             # Python script to train and save the model
+│   ├── data_processing.py   # Feature engineering and data processing for ML
+│   ├── predict.py           # Script to load the model and make predictions
+│   └── model.pkl            # Serialized machine learning model (saved)
+│
+├── .gitignore               # Git ignore file for ignoring node_modules, etc.
+└── README.md                # Project documentation

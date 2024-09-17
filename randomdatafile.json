@@ -1,0 +1,187 @@
+{
+"status": 200,
+"statusCode": 200,
+"message": "success",
+"otherParams": {
+"city": "bangalore",
+"topPropertyId": null,
+"total_count": 25,
+"count": 25,
+"region_id": "ChIJzW7cv5EUrjsRecj7OYRxMvI",
+"searchToken": null
+},
+"data": [
+{
+"propertyAge": 4,
+"parking": "NONE",
+"parkingDesc": "None",
+"shortlistedByLoggedInUser": false,
+"lastUpdateDate": 1514822557000,
+"balconies": 0,
+"furnishingDesc": "Semi",
+"cupBoard": 1,
+"negotiable": true,
+"type": "BHK1",
+"ownerId": "ff8081816035b0e501604401f2c12e3b",
+"rent": 14000,
+"availableFrom": 1514745000000,
+"photos": [
+{
+"imagesMap": {
+"thumbnail": "ff8081816035b0e50160440202d82e3f_26324_thumbnail.jpg",
+"original": "ff8081816035b0e50160440202d82e3f_82703_original.jpg",
+"large": "ff8081816035b0e50160440202d82e3f_4252_large.jpg",
+"medium": "ff8081816035b0e50160440202d82e3f_74155_medium.jpg"
+},
+"displayPic": true,
+"name": "image",
+"title": ""
+},
+{
+"imagesMap": {
+"thumbnail": "ff8081816035b0e50160440202d82e3f_21344_thumbnail.jpg",
+"original": "ff8081816035b0e50160440202d82e3f_93251_original.jpg",
+"large": "ff8081816035b0e50160440202d82e3f_98149_large.jpg",
+"medium": "ff8081816035b0e50160440202d82e3f_43894_medium.jpg"
+},
+"displayPic": false,
+"name": "image",
+"title": ""
+},
+{
+"imagesMap": {
+"thumbnail": "ff8081816035b0e50160440202d82e3f_91032_thumbnail.jpg",
+"original": "ff8081816035b0e50160440202d82e3f_32201_original.jpg",
+"large": "ff8081816035b0e50160440202d82e3f_6158_large.jpg",
+"medium": "ff8081816035b0e50160440202d82e3f_40435_medium.jpg"
+},
+"displayPic": false,
+"name": "image",
+"title": ""
+},
+{
+"imagesMap": {
+"thumbnail": "ff8081816035b0e50160440202d82e3f_95553_thumbnail.jpg",
+"original": "ff8081816035b0e50160440202d82e3f_23969_original.jpg",
+"large": "ff8081816035b0e50160440202d82e3f_97849_large.jpg",
+"medium": "ff8081816035b0e50160440202d82e3f_5935_medium.jpg"
+},
+"displayPic": false,
+"name": "image",
+"title": ""
+},
+{
+"imagesMap": {
+"thumbnail": "ff8081816035b0e50160440202d82e3f_10579_thumbnail.jpg",
+"original": "ff8081816035b0e50160440202d82e3f_43515_original.jpg",
+"large": "ff8081816035b0e50160440202d82e3f_7436_large.jpg",
+"medium": "ff8081816035b0e50160440202d82e3f_29733_medium.jpg"
+},
+"displayPic": false,
+"name": "image",
+"title": ""
+},
+{
+"imagesMap": {
+"thumbnail": "ff8081816035b0e50160440202d82e3f_42733_thumbnail.jpg",
+"original": "ff8081816035b0e50160440202d82e3f_62790_original.jpg",
+"large": "ff8081816035b0e50160440202d82e3f_90216_large.jpg",
+"medium": "ff8081816035b0e50160440202d82e3f_78354_medium.jpg"
+},
+"displayPic": false,
+"name": "image",
+"title": ""
+},
+{
+"imagesMap": {
+"thumbnail": "ff8081816035b0e50160440202d82e3f_83146_thumbnail.jpg",
+"original": "ff8081816035b0e50160440202d82e3f_77953_original.jpg",
+"large": "ff8081816035b0e50160440202d82e3f_8855_large.jpg",
+"medium": "ff8081816035b0e50160440202d82e3f_6878_medium.jpg"
+},
+"displayPic": false,
+"name": "image",
+"title": ""
+}
+],
+"propertySize": 650,
+"loanAvailable": true,
+"score": null,
+"accomodationTypeDesc": "",
+"propertyCode": null,
+"id": "ff8081816035b0e50160440202d82e3f",
+"localityId": "ChIJEbE4voYUrjsR5M-82Do4o2c",
+"adminEvent": "PROPERTY",
+"bathroom": 1,
+"propertyTitle": "1 BHK in HSR Layout, 1st Sector",
+"longitude": 77.64697914232784,
+"powerBackup": "FULL",
+"dateOnly": 1514745000000,
+"inactiveReason": null,
+"locality": "HSR Layout, 1st Sector",
+"active": true,
+"creationDate": 1512969470000,
+"swimmingPool": false,
+"accomodationType": null,
+"waterSupply": "CORPORATION",
+"accurateLocation": true,
+"pinCode": 560102,
+"totalFloor": 3,
+"lift": false,
+"deposit": 80000,
+"gym": false,
+"detailUrl": "/property/1-BHK-apartment-for-rent-in-HSR-Layout-1st-Sector-bangalore-for-rs-14000/ff8081816035b0e50160440202d82e3f/detail",
+"activationDate": 1514822424000,
+"facingDesc": "North",
+"furnishing": "SEMI_FURNISHED",
+"amenities": "{\"LIFT\":false,\"GYM\":false,\"INTERNET\":true,\"AC\":false,\"CLUB\":false,\"INTERCOM\":false,\"POOL\":false,\"CPA\":false,\"FS\":false,\"SERVANT\":false,\"SECURITY\":false,\"SC\":true,\"GP\":false,\"PARK\":false,\"RWH\":false,\"STP\":false,\"HK\":false,\"PB\":false,\"VP\":false}",
+"photoAvailable": true,
+"typeDesc": "1 BHK",
+"city": "bangalore",
+"shortUrl": "http://nobrkr.in/7uQSQV",
+"latitude": 12.919388898656166,
+"description": "1 BHK house is located to near to the main road.\nThe house is semi furnished. It has easy access to market, schools, hospitals, banks and ATM's as well.\n*Outside 2W Parking.",
+"facing": "N",
+"title": "1 BHK in HSR Layout, 1st Sector",
+"nbLocality": "HSR Layout, 1st Sector",
+"leaseType": "ANYONE",
+"society": "Standalone Building",
+"ownerName": "rakshit",
+"street": "7th Cross,22nd Main, Opp. Sri Lakshmi Glass Plywood",
+"managed": null,
+"propertyType": "RENT",
+"secondaryTitle": "Standalone Building, 7th Cross,22nd Main, Opp. Sri Lakshmi Glass Plywood",
+"floor": 3,
+"lastActivationDate": 1512980259000,
+"forLease": false,
+"inactiveReasonDesc": null,
+"sponsored": false,
+"buildingId": null,
+"tenantTypeDesc": "",
+"amenitiesMap": {
+"INTERCOM": false,
+"AC": false,
+"RWH": false,
+"HK": false,
+"INTERNET": true,
+"LIFT": false,
+"CLUB": false,
+"GP": false,
+"FS": false,
+"STP": false,
+"PARK": false,
+"SC": true,
+"PB": false,
+"CPA": false,
+"SECURITY": false,
+"POOL": false,
+"GYM": false,
+"VP": false,
+"SERVANT": false
+},
+"location": "12.919388898656166000,77.646979142327840000",
+"sharedAccomodation": false,
+"buildingType": "IF"
+}
+]
+}
